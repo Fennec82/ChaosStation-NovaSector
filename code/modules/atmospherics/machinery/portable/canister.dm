@@ -18,6 +18,7 @@
 	integrity_failure = 0.4
 	pressure_resistance = 7 * ONE_ATMOSPHERE
 	req_access = list()
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 10)
 
 	///Is the valve open?
 	var/valve_open = FALSE
@@ -49,13 +50,20 @@
 	fire = 80
 	acid = 50
 
+/obj/machinery/portable_atmospherics/canister/get_save_vars()
+	. = ..()
+	. += NAMEOF(src, valve_open)
+	. += NAMEOF(src, release_pressure)
+	return .
+
 /obj/machinery/portable_atmospherics/canister/Initialize(mapload)
 	. = ..()
 
 	if(mapload)
 		internal_cell = new /obj/item/stock_parts/power_store/cell/high(src)
 
-	create_gas()
+	if(!initial_gas_mix)
+		create_gas()
 
 	if(ispath(gas_type, /datum/gas))
 		desc = "[GLOB.meta_gas_info[gas_type][META_GAS_NAME]]. [GLOB.meta_gas_info[gas_type][META_GAS_DESC]]"
@@ -408,7 +416,7 @@
 	if(internal_cell)
 		internal_cell.forceMove(drop_location())
 
-/obj/machinery/portable_atmospherics/canister/attackby(obj/item/item, mob/user, list/modifiers)
+/obj/machinery/portable_atmospherics/canister/attackby(obj/item/item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(item, /obj/item/stock_parts/power_store/cell))
 		var/obj/item/stock_parts/power_store/cell/active_cell = item
 		if(!panel_open)

@@ -52,21 +52,10 @@
 		"synth_liver",
 		"synth_lungs",
 		"synth_stomach",
+		"synth_charger",
 		"synth_ears",
 		"synth_heart",
 	)
-
-/datum/techweb_node/ammobench_more
-	id = TECHWEB_NODE_AMMOBENCH_MORE
-	display_name = "Ammunition Bench Authentication Protocols"
-	description = "Turns out it's really easy to flash fabrication module reauthentication firmware onto blank circuits."
-	design_ids = list(
-		"ammobench_reauth",
-	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_1_POINTS)
-	hidden = TRUE
-	experimental = TRUE
-	announce_channels = list(RADIO_CHANNEL_SECURITY, RADIO_CHANNEL_SUPPLY)
 
 // MODULAR ADDITIONS AND REMOVALS
 
@@ -74,12 +63,14 @@
 /datum/techweb_node/atmos/New()
 	design_ids += list(
 		"vox_gas_filter",
+		"vaporizer",
 	)
 	return ..()
 
 /datum/techweb_node/construction/New()
 	design_ids += list(
 		"polarizer",
+		"airbag",
 	)
 	return ..()
 
@@ -102,6 +93,7 @@
 		"anesthetic_machine",
 		"smartdartgun",
 		"cone_of_shame",
+		"defibrillator",
 	)
 	return ..()
 
@@ -136,6 +128,7 @@
 /datum/techweb_node/consoles/New()
 	design_ids += list(
 		"nif_service_tools",
+		"idcard_guest",
 	)
 	return ..()
 
@@ -234,17 +227,12 @@
 	)
 	return ..()
 
-/datum/techweb_node/mod_security/New()
-	design_ids += list(
-		"mod_retract_plates",
-	)
-	return ..()
-
 /datum/techweb_node/exotic_ammo/New()
 	design_ids += list(
 		"c38_haywire",
 		"c38_haywire_mag",
 		"ammobench_niche",
+		"sec_dart_pen",
 	)
 	return ..()
 
@@ -324,6 +312,7 @@
 		"borg_upgrade_clamp",
 		"borg_upgrade_brush",
 		"borg_upgrade_shrink",
+		"borg_upgrade_cargo_apparatus"
 	)
 	return ..()
 
@@ -337,5 +326,20 @@
 /datum/techweb_node/borg_medical/New()
 	design_ids += list(
 		"borg_upgrade_surgicaltools",
+	)
+	return ..()
+
+/////////////////////////Applied Bluespace /////////////////////////
+
+/datum/techweb_node/applied_bluespace/New()
+	design_ids += list(
+		"plantbag_holding",
+	)
+	return ..()
+
+// modsuit security stuff
+/datum/techweb_node/mod_security/New()
+	design_ids += list(
+		"mod_plating_security",
 	)
 	return ..()

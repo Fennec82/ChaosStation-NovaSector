@@ -163,7 +163,7 @@
 		update_appearance()
 	return ITEM_INTERACT_SUCCESS
 
-/obj/structure/tram/attackby_secondary(obj/item/tool, mob/user, list/modifiers)
+/obj/structure/tram/attackby_secondary(obj/item/tool, mob/user, list/modifiers, list/attack_modifiers)
 	switch(state)
 		if(TRAM_SCREWED_TO_FRAME)
 			if(tool.tool_behaviour == TOOL_SCREWDRIVER)
@@ -218,28 +218,10 @@
 		for(var/i in 1 to mineral_amount)
 			new mineral(loc)
 
-/obj/structure/tram/attackby(obj/item/item, mob/user, list/modifiers)
-	. = ..()
-
-	if(istype(item, /obj/item/wallframe/tram))
-		try_wallmount(item, user)
-
-/obj/structure/tram/proc/try_wallmount(obj/item/wallmount, mob/user)
-	if(!istype(wallmount, /obj/item/wallframe/tram))
-		return
-
-	var/obj/item/wallframe/frame = wallmount
-	if(frame.try_build(src, user))
-		frame.attach(src, user)
-
-	return
-
 /*
  * Other misc tramwall types
  */
-
 /obj/structure/tram/alt
-
 
 /obj/structure/tram/alt/titanium
 	name = "solid tram"
@@ -353,7 +335,7 @@
 	/// The last time a radiation pulse was performed
 	var/last_event = 0
 
-/obj/structure/tram/alt/uranium/attackby(obj/item/W, mob/user, list/modifiers)
+/obj/structure/tram/alt/uranium/attackby(obj/item/W, mob/user, list/modifiers, list/attack_modifiers)
 	radiate()
 	return ..()
 
@@ -423,7 +405,7 @@
 	icon_state = "bamboo_wall-0"
 	base_icon_state = "wall"
 	smoothing_flags = SMOOTH_BITMASK
-	smoothing_groups = SMOOTH_GROUP_WALLS + SMOOTH_GROUP_BAMBOO_WALLS + SMOOTH_GROUP_CLOSED_TURFS
+	smoothing_groups = SMOOTH_GROUP_BAMBOO_WALLS + SMOOTH_GROUP_WALLS  + SMOOTH_GROUP_CLOSED_TURFS
 	canSmoothWith = SMOOTH_GROUP_BAMBOO_WALLS
 	mineral = /obj/item/stack/sheet/mineral/bamboo
 	tram_wall_type = /obj/structure/tram/alt/bamboo

@@ -3,35 +3,72 @@
 /turf/template_noop,
 /area/template_noop)
 "b" = (
-/obj/effect/turf_decal/trimline/red/filled/line{
-	dir = 4
-	},
-/obj/item/clothing/suit/hooded/ablative{
-	pixel_x = 1
-	},
 /obj/structure/rack,
-/obj/machinery/door/window/brigdoor/left/directional/north{
-	name = "Ablative Trenchcoat"
+/obj/item/gun/ballistic/automatic/battle_rifle{
+	pixel_y = 3
 	},
-/obj/structure/window/reinforced/spawner/directional/west,
-/obj/machinery/power/apc/auto_name/directional/east,
-/obj/effect/turf_decal/trimline/red/filled/mid_joiner{
-	dir = 4
-	},
-/obj/structure/cable,
 /obj/item/gun/energy/temperature/security,
-/obj/item/gun/energy/ionrifle{
-	pixel_y = -6
-	},
+/obj/item/gun/energy/ionrifle,
+/obj/item/clothing/suit/hooded/ablative,
 /turf/open/floor/iron/dark/smooth_large,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 "p" = (
+/turf/closed/wall/r_wall,
+/area/station/security/armory)
+"r" = (
 /obj/structure/rack,
 /obj/machinery/airalarm/directional/west,
 /obj/effect/spawner/armory_spawn/shotguns,
 /turf/open/floor/iron/dark/smooth_large,
-/area/station/ai_monitored/security/armory)
-"x" = (
+/area/station/security/armory)
+"u" = (
+/obj/machinery/newscaster/directional/west,
+/obj/machinery/camera/motion{
+	c_tag = "Armory - Internal";
+	dir = 8
+	},
+/obj/structure/rack/gunrack,
+/obj/effect/spawner/armory_spawn/mod_lasers_big,
+/turf/open/floor/iron/dark/smooth_large,
+/area/station/security/armory)
+"C" = (
+/obj/structure/table,
+/obj/item/radio/intercom/directional/west,
+/obj/machinery/light/small/directional/west,
+/obj/effect/spawner/armory_spawn/smg,
+/turf/open/floor/iron/dark/smooth_large,
+/area/station/security/armory)
+"Q" = (
+/obj/structure/reagent_dispensers/wall/peppertank/directional/west,
+/obj/machinery/light/directional/west,
+/obj/structure/rack,
+/obj/effect/spawner/random/armory/riot_helmet{
+	pixel_x = -1;
+	pixel_y = 1
+	},
+/obj/effect/spawner/random/armory/bulletproof_helmet{
+	pixel_x = 8;
+	pixel_y = 0
+	},
+/obj/structure/cable,
+/obj/machinery/power/apc/auto_name/directional/south,
+/turf/open/floor/iron/dark/smooth_large,
+/area/station/security/armory)
+"R" = (
+/obj/structure/table,
+/obj/item/storage/box/teargas{
+	pixel_x = -2;
+	pixel_y = 14
+	},
+/obj/item/clothing/mask/gas/sechailer{
+	pixel_x = -6;
+	pixel_y = 4
+	},
+/obj/effect/spawner/random/armory/barrier_grenades/six,
+/obj/machinery/light/directional/north,
+/turf/open/floor/iron/dark/smooth_large,
+/area/station/security/armory)
+"W" = (
 /obj/machinery/requests_console/directional/north{
 	department = "Security";
 	name = "Security Requests Console";
@@ -43,67 +80,35 @@
 /obj/structure/rack/gunrack,
 /obj/effect/spawner/armory_spawn/mod_lasers_small,
 /turf/open/floor/iron/dark/smooth_large,
-/area/station/ai_monitored/security/armory)
-"F" = (
-/obj/machinery/newscaster/directional/west,
-/obj/machinery/camera/motion{
-	c_tag = "Armory - Internal";
-	dir = 8
-	},
-/obj/structure/rack/gunrack,
-/obj/effect/spawner/armory_spawn/mod_lasers_big,
-/turf/open/floor/iron/dark/smooth_large,
-/area/station/ai_monitored/security/armory)
-"L" = (
-/obj/structure/table,
-/obj/item/radio/intercom/directional/west,
-/obj/machinery/light/small/directional/west,
-/obj/effect/spawner/armory_spawn/smg,
-/turf/open/floor/iron/dark/smooth_large,
-/area/station/ai_monitored/security/armory)
+/area/station/security/armory)
 
 (1,1,1) = {"
-a
-x
-F
-L
-a
 p
+p
+W
+u
+C
+a
+r
 a
 "}
 (2,1,1) = {"
+p
+b
 a
 a
 a
 a
 a
-a
-a
+Q
 "}
 (3,1,1) = {"
+p
+R
 a
 a
 a
 a
 a
 a
-a
-"}
-(4,1,1) = {"
-a
-a
-a
-a
-a
-a
-a
-"}
-(5,1,1) = {"
-a
-a
-a
-a
-a
-a
-b
 "}

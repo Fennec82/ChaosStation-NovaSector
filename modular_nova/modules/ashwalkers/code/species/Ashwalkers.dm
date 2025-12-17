@@ -219,7 +219,7 @@
 	attack_verb_simple = list("attack", "slash", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	sharpness = SHARP_EDGED
 	wound_bonus = 0
-	bare_wound_bonus = 0
+	exposed_wound_bonus = 0
 	armour_penetration = 5
 
 	/// how many trophies we have consumed
@@ -283,14 +283,17 @@
 		consumed_trophies += 1
 		if(isliving(user)) //give a reason to consume past the increased damage
 			var/mob/living/living_user = user
-			living_user.adjustBruteLoss(-5, updating_health = FALSE)
-			living_user.adjustFireLoss(-5)
+			var/need_mob_update
+			need_mob_update += living_user.adjust_brute_loss(-5, updating_health = FALSE)
+			need_mob_update += living_user.adjust_fire_loss(-5, updating_health = FALSE)
+			if(need_mob_update)
+				living_user.updatehealth()
 
 		if(consumed_trophies <= max_trophies)
 			force += 5
 			armour_penetration += 5
 			wound_bonus += 2
-			bare_wound_bonus += 2
+			exposed_wound_bonus += 2
 
 		else if(consumed_trophies == (max_trophies + 1)) //just so you aren't spammed...
 			to_chat(user, span_warning("[src] can no longer grow stronger!"))

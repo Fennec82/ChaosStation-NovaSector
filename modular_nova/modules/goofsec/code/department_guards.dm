@@ -132,8 +132,8 @@
 /obj/item/storage/belt/security/department_guard
 	icon_state = "engine"
 	worn_icon_state = "engine"
-	icon = 'modular_nova/modules/goofsec/icons/belts.dmi'
-	worn_icon = 'modular_nova/modules/goofsec/icons/belt_worn.dmi'
+	icon = 'modular_nova/modules/goofsec/icons/obj/belts.dmi'
+	worn_icon = 'modular_nova/modules/goofsec/icons/mob/belts.dmi'
 	unique_reskin = null
 
 /obj/item/storage/belt/security/department_guard/science
@@ -230,7 +230,6 @@
 /datum/job/science_guard
 	title = JOB_SCIENCE_GUARD
 	description = "Figure out why the emails aren't working, keep an eye on the eggheads, protect them from their latest mistakes."
-	department_head = list(JOB_RESEARCH_DIRECTOR)
 	faction = FACTION_STATION
 	total_positions = 2
 	spawn_positions = 2
@@ -259,7 +258,7 @@
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	job_flags = STATION_JOB_FLAGS | JOB_ANTAG_PROTECTED
 
 /datum/outfit/job/science_guard
 	name = "Science Guard"
@@ -330,7 +329,6 @@
 /datum/job/orderly
 	title = JOB_ORDERLY
 	description = "Defend the medical department, hold down idiots who refuse the vaccine, assist medical with prep and/or cleanup."
-	department_head = list(JOB_CHIEF_MEDICAL_OFFICER)
 	faction = FACTION_STATION
 	total_positions = 2
 	spawn_positions = 2
@@ -360,7 +358,7 @@
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
 
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	job_flags = STATION_JOB_FLAGS | JOB_ANTAG_PROTECTED
 
 /datum/outfit/job/orderly
 	name = "Orderly"
@@ -426,7 +424,6 @@
 /datum/job/engineering_guard
 	title = JOB_ENGINEERING_GUARD
 	description = "Monitor the supermatter, keep an eye on atmospherics, make sure everyone is wearing Proper Protective Equipment."
-	department_head = list(JOB_CHIEF_ENGINEER)
 	faction = FACTION_STATION
 	total_positions = 2
 	spawn_positions = 2
@@ -455,7 +452,7 @@
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	job_flags = STATION_JOB_FLAGS | JOB_ANTAG_PROTECTED
 
 /datum/outfit/job/engineering_guard
 	name = "Engineering Guard"
@@ -527,7 +524,6 @@
 /datum/job/customs_agent
 	title = JOB_CUSTOMS_AGENT
 	description = "Inspect the packages coming to and from the station, protect the cargo department, beat the shit out of people trying to ship Cocaine to the Spinward Stellar Coalition."
-	department_head = list(JOB_QUARTERMASTER)
 	faction = FACTION_STATION
 	total_positions = 2
 	spawn_positions = 2
@@ -556,7 +552,7 @@
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	job_flags = STATION_JOB_FLAGS | JOB_ANTAG_PROTECTED
 
 /datum/outfit/job/customs_agent
 	name = "Customs Agent"
@@ -622,7 +618,6 @@
 /datum/job/bouncer
 	title = JOB_BOUNCER
 	description = "Make sure people don't jump the kitchen counter, stop Chapel vandalism, check bargoer's IDs, prevent the dreaded \"food fight\"."
-	department_head = list(JOB_HEAD_OF_PERSONNEL)
 	faction = FACTION_STATION
 	total_positions = 2
 	spawn_positions = 2
@@ -651,7 +646,7 @@
 		/obj/item/clothing/mask/whistle = 5,
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
-	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	job_flags = STATION_JOB_FLAGS | JOB_ANTAG_PROTECTED
 
 /datum/outfit/job/bouncer
 	name = "Bouncer"
@@ -729,8 +724,8 @@
 	. = ..()
 	icon_state = "[department_icon_state]_[icon_state]"
 
-/obj/item/melee/baton/security/loaded/departmental/baton_attack(mob/living/target, mob/living/user, modifiers)
-	if(active && !emagged && cooldown_check <= world.time)
+/obj/item/melee/baton/security/loaded/departmental/can_baton(mob/living/target, mob/living/user)
+	if(active && !emagged && COOLDOWN_FINISHED(src, cooldown_check))
 		var/area/current_area = get_area(user)
 		if(!is_type_in_list(current_area, valid_areas))
 			if(non_departmental_uses_left)
@@ -742,11 +737,11 @@
 			else
 				target.visible_message(span_warning("[user] prods [target] with [src]. Luckily, it shut off due to being in the wrong area."), \
 					span_warning("[user] prods you with [src]. Luckily, it shut off due to being in the wrong area."))
-				active = FALSE
+				turn_off()
 				balloon_alert(user, "wrong department")
 				playsound(src, SFX_SPARKS, 75, TRUE, -1)
 				update_appearance()
-				return BATON_ATTACK_DONE
+				return FALSE
 	. = ..()
 
 /obj/item/melee/baton/security/loaded/departmental/attack_self(mob/user)
@@ -919,4 +914,19 @@
 		/obj/item/clothing/suit/armor/vest/blueshirt/nova/customs_agent = 2,
 		/obj/item/clothing/glasses/hud/security = 2,
 		/obj/item/clothing/glasses/hud/gun_permit = 2,
+	), src)
+
+/obj/item/storage/bag/garment/service_guard
+	name = "\proper the service guard's garments"
+	desc = "A bag for storing extra clothes and shoes. This one belongs to the service guard."
+
+/obj/item/storage/bag/garment/service_guard/PopulateContents()
+	generate_items_inside(list(
+		/obj/item/radio/headset/headset_srv = 2,
+		/obj/item/clothing/shoes/sneakers/black = 2,
+		/obj/item/clothing/under/rank/security/officer/blueshirt/nova/bouncer = 2,
+		/obj/item/clothing/head/helmet/blueshirt/nova/guard = 2,
+		/obj/item/clothing/head/beret/sec/service = 2,
+		/obj/item/clothing/suit/armor/vest/blueshirt/nova/guard = 2,
+		/obj/item/clothing/glasses/hud/security = 2,
 	), src)

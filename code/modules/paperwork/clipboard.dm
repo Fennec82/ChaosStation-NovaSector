@@ -20,6 +20,7 @@
 		"White" = "clipboard_white",
 	)
 	unique_reskin_changes_inhand = TRUE
+	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT, /datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT)
 
 	/// The stored pen
 	var/obj/item/pen/pen
@@ -113,7 +114,7 @@
 		return TRUE
 	. = ..()
 
-/obj/item/clipboard/attackby(obj/item/weapon, mob/user, list/modifiers)
+/obj/item/clipboard/attackby(obj/item/weapon, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(weapon, /obj/item/paper))
 		//Add paper into the clipboard
 		if(!user.transferItemToLoc(weapon, src))

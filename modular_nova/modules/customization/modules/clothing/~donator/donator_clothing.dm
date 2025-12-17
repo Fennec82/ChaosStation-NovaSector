@@ -100,8 +100,6 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/custom.dmi'
 	icon_state = "infcloak"
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/custom_w.dmi'
-	w_class = WEIGHT_CLASS_SMALL
-	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	supports_variations_flags = NONE
 
 // Donation reward
@@ -221,6 +219,7 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/custom.dmi'
 	lefthand_file = 'modular_nova/master_files/icons/donator/mob/inhands/donator_left.dmi'
 	righthand_file = 'modular_nova/master_files/icons/donator/mob/inhands/donator_right.dmi'
+	custom_materials = list(/datum/material/silver = SHEET_MATERIAL_AMOUNT)
 
 // Donation reward for Thedragmeme
 /obj/item/clothing/neck/padded
@@ -344,8 +343,6 @@
 	name = "feathered serenity hood"
 	icon_state = "paddedhoodalt"
 
-/datum/armor/clothing_under/none
-
 /obj/item/clothing/shoes/jackboots/heel
 	name = "high-heeled jackboots"
 	desc = "Almost like regular jackboots... why are they on a high heel?"
@@ -423,8 +420,6 @@
 /obj/item/clothing/mask/gas/nightlight/examine(mob/user)
 	. = ..()
 	. += span_notice("Alt-click [src] to adjust it.")
-
-/obj/item/clothing/mask/gas/nightlight/alldono //different itempath so regular donators can have it, too
 
 // Donation reward for Farsighted Nightlight
 /obj/item/clothing/mask/gas/nightlight/fir22
@@ -710,8 +705,6 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/custom.dmi'
 	icon_state = "infcloak"
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/custom_w.dmi'
-	w_class = WEIGHT_CLASS_SMALL
-	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 
 // Donation reward for inferno707
 /obj/item/clothing/neck/inferno_collar
@@ -759,7 +752,7 @@
 	return mutable_appearance('modular_nova/master_files/icons/donator/obj/custom.dmi', "darksheath-darksabre")
 
 // Donation reward for inferno707
-/obj/item/storage/belt/sabre/darksabre
+/obj/item/storage/belt/sheath/sabre/darksabre
 	name = "ornate sheathe"
 	desc = "An ornate and rather sinister looking sabre sheathe."
 	icon = 'modular_nova/master_files/icons/donator/obj/custom.dmi'
@@ -767,11 +760,11 @@
 	icon_state = "darksheath"
 	worn_icon_state = "darksheath"
 
-/obj/item/storage/belt/sabre/darksabre/Initialize(mapload)
+/obj/item/storage/belt/sheath/sabre/darksabre/Initialize(mapload)
 	. = ..()
 	atom_storage.set_holdable(/obj/item/toy/darksabre)
 
-/obj/item/storage/belt/sabre/darksabre/PopulateContents()
+/obj/item/storage/belt/sheath/sabre/darksabre/PopulateContents()
 	new /obj/item/toy/darksabre(src)
 	update_icon()
 
@@ -957,18 +950,11 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/clothing/masks.dmi'
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/mask.dmi'
 	icon_state = "yoni"
-	w_class = WEIGHT_CLASS_SMALL
-	tint = 0
-	flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
 	visor_flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
-	clothing_flags = VOICEBOX_DISABLED | MASKINTERNALS | BLOCK_GAS_SMOKE_EFFECT | GAS_FILTERING
-	use_radio_beeps_tts = TRUE
+	clothing_flags = parent_type::clothing_flags | VOICEBOX_DISABLED
 	flags_inv = NONE
-
-/obj/item/clothing/mask/gas/CMCP_mask/Initialize(mapload)
-	. = ..()
-	var/obj/item/clothing/mask/gas/sechailer/sechailer_type = /obj/item/clothing/mask/gas/sechailer
-	voice_filter = initial(sechailer_type.voice_filter)
+	use_radio_beeps_tts = TRUE
+	voice_filter = /obj/item/clothing/mask/gas/sechailer::voice_filter
 
 // Donation reward for Koruu
 /obj/item/clothing/mask/gas/signalis_gaiter
@@ -977,20 +963,13 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/clothing/masks.dmi'
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/mask.dmi'
 	icon_state = "siggaiter"
-	w_class = WEIGHT_CLASS_SMALL
-	tint = 0
 	actions_types = list(/datum/action/item_action/adjust)
-	flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
 	visor_flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
-	clothing_flags = VOICEBOX_DISABLED | MASKINTERNALS | BLOCK_GAS_SMOKE_EFFECT | GAS_FILTERING
-	use_radio_beeps_tts = TRUE
+	clothing_flags = parent_type::clothing_flags | VOICEBOX_DISABLED
 	flags_inv = NONE
 	interaction_flags_click = NEED_DEXTERITY
-
-/obj/item/clothing/mask/gas/signalis_gaiter/Initialize(mapload)
-	. = ..()
-	var/obj/item/clothing/mask/gas/sechailer/sechailer_type = /obj/item/clothing/mask/gas/sechailer
-	voice_filter = initial(sechailer_type.voice_filter)
+	use_radio_beeps_tts = TRUE
+	voice_filter = /obj/item/clothing/mask/gas/sechailer::voice_filter
 
 /obj/item/clothing/mask/gas/signalis_gaiter/attack_self(mob/user)
 	adjust_visor(user)
@@ -1065,12 +1044,8 @@
 	icon = 'modular_nova/master_files/icons/donator/obj/clothing/masks.dmi'
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/mask.dmi'
 	icon_state = "psychomalice"
-	w_class = WEIGHT_CLASS_SMALL
-	tint = 0
-	flags_inv = HIDEEARS|HIDEEYES|HIDESNOUT|HIDEFACIALHAIR
-	flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
 	visor_flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
-	clothing_flags = VOICEBOX_DISABLED | MASKINTERNALS | BLOCK_GAS_SMOKE_EFFECT | GAS_FILTERING
+	clothing_flags = parent_type::clothing_flags | VOICEBOX_DISABLED
 	interaction_flags_click = NEED_DEXTERITY
 	/// Whether or not the mask is currently being layered over (or under!) hair. FALSE/null means the mask is layered over the hair (this is how it starts off).
 	var/wear_hair_over
@@ -1216,7 +1191,7 @@
 	. = ..()
 	handle_sight_updating(user)
 
-/obj/item/clothing/glasses/welding/steampunk_goggles/attackby(obj/item/attacking_item, mob/living/user, params)
+/obj/item/clothing/glasses/welding/steampunk_goggles/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(!istype(attacking_item, /obj/item/clothing/glasses/welding))
 		return ..()
 
@@ -1342,6 +1317,10 @@
 	upsprite = "fushankaup"
 	downsprite = "fushankadown"
 
+	post_init_icon_state = null
+	greyscale_config = null
+	greyscale_config_worn = null
+
 // Donation reward for M97screwsyourparents
 /obj/item/clothing/neck/cross
 	name = "silver cross"
@@ -1434,11 +1413,11 @@
 		user.visible_message(span_notice("[user] shows you: [icon2html(src, viewers(user))] [src.name]."), span_notice("You show \the [src.name]."))
 	add_fingerprint(user)
 
-/obj/item/card/fuzzy_license/attackby(obj/item/used, mob/living/user, params)
+/obj/item/card/fuzzy_license/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(user.ckey != "fuzlet")
 		return
 
-	if(istype(used, /obj/item/pen) || istype(used, /obj/item/toy/crayon))
+	if(istype(attacking_item, /obj/item/pen) || istype(attacking_item, /obj/item/toy/crayon))
 		var/choice = input(user, "Select the license type", "License Type Selection") as null|anything in possible_types
 		if(!isnull(choice))
 			name = "license to [choice]"
@@ -1668,7 +1647,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 
 /obj/item/clothing/shoes/fancy_heels/drag/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/squeak, list('modular_nova/modules/modular_items/lewd_items/sounds/highheel1.ogg' = 1, 'modular_nova/modules/modular_items/lewd_items/sounds/highheel2.ogg' = 1), 70)
+	AddComponent(/datum/component/squeak, list('modular_nova/master_files/sound/effects/footstep/highheel1.ogg' = 1, 'modular_nova/master_files/sound/effects/footstep/highheel2.ogg' = 1), 70)
 
 // Donation reward for Razurath
 
@@ -2003,7 +1982,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 		message = span_warning("[src]'s delicate fabric is shredded by [washer]! How terrible!")
 		sound_effect_path = 'sound/effects/cloth_rip.ogg'
 		sound_effect_volume = 30
-		for (var/zone as anything in cover_flags2body_zones(body_parts_covered))
+		for (var/zone in cover_flags2body_zones(body_parts_covered))
 			take_damage_zone(zone, limb_integrity * 1.1, BRUTE) // fucking shreds it
 
 	var/turf/our_turf = get_turf(src)
@@ -2113,7 +2092,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 #undef TOASTER_IMPLANT_COOLDOWN
 
 // donator item for Sciamach
-/obj/item/organ/cyberimp/arm/shard/donator/theurgic_crystal
+/obj/item/organ/cyberimp/arm/toolkit/shard/donator/theurgic_crystal
 	name = "theurgic stone"
 	desc = "An eerie crystalline shard that pulses with theurgic energies. Tendrils of crimson energy seem to dance along its surface."
 	icon = 'modular_nova/master_files/icons/donator/obj/custom.dmi'
@@ -2192,7 +2171,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 
 /obj/item/clothing/shoes/rem_shoes/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/squeak, list('modular_nova/modules/modular_items/lewd_items/sounds/highheel1.ogg' = 1, 'modular_nova/modules/modular_items/lewd_items/sounds/highheel2.ogg' = 1), 70)
+	AddComponent(/datum/component/squeak, list('modular_nova/master_files/sound/effects/footstep/highheel1.ogg' = 1, 'modular_nova/master_files/sound/effects/footstep/highheel2.ogg' = 1), 70)
 
 /obj/item/clothing/under/bwake
 	name = "\improper Compression bodysuit"
@@ -2252,6 +2231,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	worn_icon_digi = 'modular_nova/master_files/icons/donator/mob/clothing/suit_digi.dmi'
 	icon_state = "seva_melon"
 	hoodtype = /obj/item/clothing/head/hooded/seva/melon
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION
 	hood_up_affix = ""
 
 /obj/item/clothing/head/hooded/seva/melon
@@ -2373,6 +2353,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	worn_icon_digi = 'modular_nova/master_files/icons/donator/mob/clothing/suit_digi.dmi'
 	icon_state = "explorer_melon"
 	hoodtype = /obj/item/clothing/head/hooded/explorer/melon
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION
 	hood_up_affix = ""
 
 /obj/item/clothing/head/hooded/explorer/melon
@@ -2465,8 +2446,17 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/korpstech, 32)
 	worn_icon_state = "ecologist_claw"
 	icon = 'modular_nova/master_files/icons/donator/obj/clothing/gloves.dmi'
 	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/hands.dmi'
-// Kaynite Donor Items
 
+/obj/item/clothing/suit/admiral_coat
+	name = "admiral's coat"
+	desc = "A robust and imposing looking Sol-naval coat made out of genuine Europan thresher leather. It provides a durable yet comfortable layer, lined with icewolf fur to protect from the bitter cold and ingrained armored padding to protect from the bitter assistants."
+	icon_state = "hosnavyzec"
+	worn_icon_state = "hosnavyzec"
+	icon = 'modular_nova/master_files/icons/donator/obj/clothing/suits.dmi'
+	worn_icon = 'modular_nova/master_files/icons/donator/mob/clothing/suit.dmi'
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+
+// Kaynite Donor Items
 /obj/item/clothing/suit/hooded/merctac_hoodie
 	name = "\improper MercTac hoodie"
 	desc = "A custom tailored hoodie with rash guard, and a sleeveless option for the opposite arm. \

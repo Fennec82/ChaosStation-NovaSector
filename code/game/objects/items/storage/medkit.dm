@@ -28,6 +28,10 @@
 	/// Defines damage type of the medkit. General ones stay null. Used for medibot healing bonuses
 	var/damagetype_healed
 
+/obj/item/storage/medkit/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/cuffable_item)
+
 /obj/item/storage/medkit/regular
 	icon_state = "medkit"
 	desc = "A first aid kit with the ability to heal common types of injuries."
@@ -60,7 +64,7 @@
 	var/static/items_inside = list(
 		/obj/item/healthanalyzer/simple = 1,
 		/obj/item/stack/medical/gauze = 1,
-		/obj/item/stack/medical/suture/emergency = 1,
+		/obj/item/stack/medical/bandage = 1,
 		/obj/item/stack/medical/ointment = 1,
 		/obj/item/reagent_containers/hypospray/medipen/ekit = 2,
 		/obj/item/storage/pill_bottle/iron = 1,
@@ -89,6 +93,36 @@
 		/obj/item/cautery = 1,
 	)
 	generate_items_inside(items_inside,src)
+
+/obj/item/storage/medkit/surgery_syndie
+	name = "suspicous surgical medkit"
+	desc = "An suspicous coloured medkit full of advanced medical equipment."
+	icon_state = "medkit_tactical_lite"
+	inhand_icon_state = "medkit-tactical-lite"
+	damagetype_healed = HEAL_ALL_DAMAGE
+	storage_type = /datum/storage/medkit/surgery
+
+/obj/item/storage/medkit/surgery_syndie/PopulateContents()
+	if(empty)
+		return
+	var/static/items_inside = list(
+		/obj/item/scalpel/advanced = 1,
+		/obj/item/retractor/advanced = 1,
+		/obj/item/cautery/advanced = 1,
+		/obj/item/surgical_drapes = 1,
+		/obj/item/stack/medical/gauze/twelve = 1,
+		/obj/item/reagent_containers/medigel/sterilizine = 1,
+		/obj/item/bonesetter = 1,
+		/obj/item/blood_filter = 1,
+		/obj/item/stack/medical/bone_gel = 1,
+		/obj/item/stack/sticky_tape/surgical = 1,
+		/obj/item/reagent_containers/syringe = 1,
+		/obj/item/reagent_containers/cup/bottle/sodium_thiopental = 1,
+	)
+	generate_items_inside(items_inside,src)
+
+/obj/item/storage/medkit/surgery_syndie/get_medbot_skin()
+	return "bezerk"
 
 /obj/item/storage/medkit/ancient
 	icon_state = "oldfirstaid"
@@ -341,14 +375,16 @@
 		balloon_alert(user, "items inside!")
 		return ITEM_INTERACT_BLOCKING
 
-	var/obj/item/bot_assembly/medbot/medbot_assembly = new()
+	var/obj/item/bot_assembly/medbot/medbot_assembly = new(drop_location())
 	medbot_assembly.set_skin(get_medbot_skin())
-	user.put_in_hands(medbot_assembly)
 	medbot_assembly.balloon_alert(user, "arm added")
 	medbot_assembly.robot_arm = tool.type
 	medbot_assembly.medkit_type = type
 	qdel(tool)
+	var/held_index = user.is_holding(src)
 	qdel(src)
+	if (held_index)
+		user.put_in_hand(medbot_assembly, held_index)
 	return ITEM_INTERACT_SUCCESS
 
 /// Gets what skin (icon_state) this medkit uses for a medbot
@@ -463,6 +499,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	storage_type = /datum/storage/test_tube_rack
+	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT)
 
 /obj/item/storage/test_tube_rack/update_icon_state()
 	icon_state = "[base_icon_state][contents.len > 0 ? contents.len : null]"
